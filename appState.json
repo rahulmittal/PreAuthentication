@@ -22,7 +22,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "PreAuthentication/lambda.js",
-        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nexports.handler = function (event, context, callback) {\n    console.log(\"Pre-Auth trigger event - \" + JSON.stringify(event));\n    if (event.callerContext.clientId === \"user-pool-app-client-id-to-be-blocked\") {\n        var error = new Error(\"Cannot authenticate users from this user pool app client\");\n\n        // Return error to Amazon Cognito\n        callback(error, event);\n    }\n    console.log(\"putting login attemmpt in DB :\");\n    let user = \"rahulmittal\";\n    let loginAttmeptcount = 1;\n    ddb.put({\n        TableName: 'CognitoUser',\n        Item: { 'loginCount': count, 'userId': user }\n    }).promise()\n        .then((data) => {\n            console.log('data :' + JSON.stringify(data));\n        })\n        .catch((err) => {\n            console.log(\"ERROR : \" + JSON.stringify(err));\n        });\n\n    // Return to Amazon Cognito\n    callback(null, event);\n    //callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nexports.handler = function (event, context, callback) {\n    console.log(\"Pre-Auth trigger event - \" + JSON.stringify(event));\n    if (event.callerContext.clientId === \"user-pool-app-client-id-to-be-blocked\") {\n        var error = new Error(\"Cannot authenticate users from this user pool app client\");\n\n        // Return error to Amazon Cognito\n        callback(error, event);\n    }\n    console.log(\"putting login attemmpt in DB :\");\n    let user = \"rahulmittal\";\n    let count = 1;\n    ddb.put({\n        TableName: 'CognitoUser',\n        Item: { 'loginCount': count, 'userId': user }\n    }).promise()\n        .then((data) => {\n            console.log('data :' + JSON.stringify(data));\n        })\n        .catch((err) => {\n            console.log(\"ERROR : \" + JSON.stringify(err));\n        });\n\n    // Return to Amazon Cognito\n    callback(null, event);\n    //callback(null, {\"message\": \"Successfully executed\"});\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -378,7 +378,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1563648339160
+    "lastSave": 1563648501140
   },
   "VCS_STATE": {
     "provider": "GitHub",

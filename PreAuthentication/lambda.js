@@ -11,7 +11,7 @@ exports.handler = function (event, context, callback) {
     }
     console.log("putting login attemmpt in DB :");
     let user = "rahulmittal";
-    let loginAttmeptcount = 1;
+    let count = 1;
     ddb.put({
         TableName: 'CognitoUser',
         Item: { 'loginCount': count, 'userId': user }
