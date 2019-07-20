@@ -1,0 +1,397 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "828b0631-78e4-443a-b57f-a03a9655cf8f": {
+        "id": "828b0631-78e4-443a-b57f-a03a9655cf8f",
+        "parent": null,
+        "name": "PreAuthentication",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "0c70246e-57df-48fe-a9ef-dc448c1cf077"
+        ],
+        "isRemovable": false,
+        "filePath": "PreAuthentication"
+      },
+      "0c70246e-57df-48fe-a9ef-dc448c1cf077": {
+        "id": "0c70246e-57df-48fe-a9ef-dc448c1cf077",
+        "parent": "828b0631-78e4-443a-b57f-a03a9655cf8f",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "PreAuthentication/lambda.js",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nexports.handler = function (event, context, callback) {\n    console.log(\"Pre-Auth trigger event - \" + JSON.stringify(event));\n    if (event.callerContext.clientId === \"user-pool-app-client-id-to-be-blocked\") {\n        var error = new Error(\"Cannot authenticate users from this user pool app client\");\n\n        // Return error to Amazon Cognito\n        callback(error, event);\n    }\n    console.log(\"putting login attemmpt in DB :\");\n    let user = \"rahulmittal\";\n    let loginAttmeptcount = 1;\n    ddb.put({\n        TableName: 'CognitoUser',\n        Item: { 'loginCount': count, 'userId': user }\n    }).promise()\n        .then((data) => {\n            console.log('data :' + JSON.stringify(data));\n        })\n        .catch((err) => {\n            console.log(\"ERROR : \" + JSON.stringify(err));\n        });\n\n    // Return to Amazon Cognito\n    callback(null, event);\n    //callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [
+          {
+            "resourceName": "cognitopool07162019",
+            "config": {
+              "triggerType": "PreAuthentication"
+            }
+          }
+        ]
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "828b0631-78e4-443a-b57f-a03a9655cf8f",
+    "openFiles": [
+      "0c70246e-57df-48fe-a9ef-dc448c1cf077"
+    ],
+    "currentFileId": "0c70246e-57df-48fe-a9ef-dc448c1cf077",
+    "resources": {
+      "cognitopool07162019": {
+        "name": "cognitopool07162019",
+        "type": "CognitoIdentityServiceProvider",
+        "config": {
+          "mode": 1,
+          "name": "pool_07_16_2019",
+          "arn": "arn:aws:cognito-idp:us-east-1:060098525355:userpool/us-east-1_ZYvkePp7C",
+          "userPool": {
+            "Id": "us-east-1_ZYvkePp7C",
+            "Name": "pool_07_16_2019",
+            "LambdaConfig": {
+              "DefineAuthChallenge": "arn:aws:lambda:us-east-1:060098525355:function:DefineAuthChallenge",
+              "CreateAuthChallenge": "arn:aws:lambda:us-east-1:060098525355:function:CreateAuthChallenge",
+              "VerifyAuthChallengeResponse": "arn:aws:lambda:us-east-1:060098525355:function:VerifyAuthChallenge"
+            },
+            "Policies": {
+              "PasswordPolicy": {
+                "MinimumLength": 8,
+                "RequireUppercase": true,
+                "RequireLowercase": true,
+                "RequireNumbers": true,
+                "RequireSymbols": true
+              }
+            },
+            "AutoVerifiedAttributes": [
+              "email"
+            ],
+            "AliasAttributes": [
+              "email",
+              "phone_number",
+              "preferred_username"
+            ],
+            "SmsVerificationMessage": "Your verification code is {####}. ",
+            "EmailVerificationMessage": "Your verification code is {####}. ",
+            "EmailVerificationSubject": "Your verification code",
+            "VerificationMessageTemplate": {
+              "SmsMessage": "Your verification code is {####}. ",
+              "EmailMessage": "Your verification code is {####}. ",
+              "EmailSubject": "Your verification code",
+              "DefaultEmailOption": "CONFIRM_WITH_CODE"
+            },
+            "SmsAuthenticationMessage": "Your authentication code is {####}. ",
+            "MfaConfiguration": "OFF",
+            "EmailConfiguration": {},
+            "UserPoolTags": {},
+            "AdminCreateUserConfig": {
+              "AllowAdminCreateUserOnly": false,
+              "UnusedAccountValidityDays": 7,
+              "InviteMessageTemplate": {
+                "SMSMessage": "Your username is {username} and temporary password is {####}. ",
+                "EmailMessage": "Your username is {username} and temporary password is {####}. ",
+                "EmailSubject": "Your temporary password"
+              }
+            },
+            "SchemaAttributes": [
+              {
+                "Name": "sub",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": false,
+                "Required": true,
+                "StringAttributeConstraints": {
+                  "MinLength": "1",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "name",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "given_name",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": true,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "family_name",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": true,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "middle_name",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "nickname",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "preferred_username",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "profile",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "picture",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "website",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "email",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "email_verified",
+                "AttributeDataType": "Boolean",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false
+              },
+              {
+                "Name": "gender",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "birthdate",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "10",
+                  "MaxLength": "10"
+                }
+              },
+              {
+                "Name": "zoneinfo",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "locale",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "phone_number",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": true,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "phone_number_verified",
+                "AttributeDataType": "Boolean",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false
+              },
+              {
+                "Name": "address",
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "StringAttributeConstraints": {
+                  "MinLength": "0",
+                  "MaxLength": "2048"
+                }
+              },
+              {
+                "Name": "updated_at",
+                "AttributeDataType": "Number",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Required": false,
+                "NumberAttributeConstraints": {
+                  "MinValue": "0"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "ddbCognitoUser": {
+        "name": "ddbCognitoUser",
+        "type": "DynamoDB",
+        "config": {
+          "mode": 0,
+          "operation": "put",
+          "table": {
+            "arn": "",
+            "name": "CognitoUser",
+            "partitionKey": "userId",
+            "partitionKeyType": "S",
+            "hasSortKey": false,
+            "sortKey": "",
+            "sortKeyType": "S",
+            "payPerRequest": true,
+            "mode": 0
+          },
+          "isGlobalEditMode": false,
+          "parameters": {
+            "Key": {},
+            "Item": {
+              "loginCount": "@{count}",
+              "userId": "@{user}"
+            },
+            "ExpressionAttributeValues": {}
+          },
+          "triggerParams": {},
+          "validator": {
+            "validatableFields": {},
+            "validity": true
+          },
+          "valid": true
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "language": "javascript",
+          "version": "2.176.0",
+          "dev": true,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "PreAuthentication",
+    "projectDescription": "Pre auth trigger for Cognito",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1563647835005
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "PreAuthentication",
+      "url": "https://github.com/rahulmittal/PreAuthentication"
+    }
+  }
+}
