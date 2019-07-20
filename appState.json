@@ -30,14 +30,7 @@
           "memory": 128,
           "layers": []
         },
-        "triggers": [
-          {
-            "resourceName": "cognitopool07162019",
-            "config": {
-              "triggerType": "PreAuthentication"
-            }
-          }
-        ]
+        "triggers": []
       }
     },
     "deletedFiles": [],
@@ -385,7 +378,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1563647835005
+    "lastSave": 1563648339160
   },
   "VCS_STATE": {
     "provider": "GitHub",
