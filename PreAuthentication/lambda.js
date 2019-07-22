@@ -70,7 +70,7 @@ exports.handler = function (event, context, callback) {
 			event.response = err;
 			console.log("call - back - calling context done!- error");
 			//context.done(JSON.stringify(err));
-			callback(null, JSON.stringify(err));
+			callback(JSON.stringify(err));
 		});
 	}
 	console.log("returning lambda...");
