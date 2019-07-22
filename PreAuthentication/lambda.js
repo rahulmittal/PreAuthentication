@@ -73,6 +73,6 @@ exports.handler = function (event, context, callback) {
 			//callback(JSON.stringify(err));
 		});
 	}
-	console.log("returning lambda...");
-	callback(null, event);
+	//console.log("returning lambda...");
+	//callback(null, event);
 }
