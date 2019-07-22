@@ -1,6 +1,14 @@
 let AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient();
 
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
+
 exports.handler = function (event, context, callback) {
 	console.log("Pre-Auth trigger event - " + JSON.stringify(event));
 	if (event.callerContext.clientId === "user-pool-app-client-id-to-be-blocked") {
