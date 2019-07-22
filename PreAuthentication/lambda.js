@@ -9,19 +9,35 @@ exports.handler = function (event, context, callback) {
         // Return error to Amazon Cognito
         callback(error, event);
     }
-    console.log("putting login attemmpt in DB :");
-    let user = "rahulmittal";
-    let count = 1;
-    ddb.put({
-        TableName: 'CognitoUser',
-        Item: { 'loginCount': count, 'userId': user }
-    }).promise()
-        .then((data) => {
-            console.log('data :' + JSON.stringify(data));
-        })
-        .catch((err) => {
-            console.log("ERROR : " + JSON.stringify(err));
-        });
+    console.log("get attempt count for user :" + event.request.userAttributes.sub);
+
+    if(event.request.userAttributes.sub){
+
+        let attemptCount = 0;
+        ddb.get({
+            TableName: 'CognitoUser',
+            Key: { 'userId': event.request.userAttributes.sub }
+        }).promise().then((data) => {
+                console.log("GET Data  :" + JSON.stringify(data));
+             }).catch((err) => {
+                console.error("ERROR while get :" + JSON.stringify(err))
+            });
+
+            console.log("putting login attemmpt in DB :");
+            let user = event.request.userAttributes.sub;
+            let count = ++attemptCount;
+            ddb.put({
+                TableName: 'CognitoUser',
+                Item: { 'loginCount': count, 'userId': user }
+            }).promise().then((data) => {
+                console.log('PUT data :' + JSON.stringify(data));
+            }).catch((err) => {
+                console.log("ERROR while put: " + JSON.stringify(err));
+            });
+
+            event.response.attemptCount = count;
+
+    }
 
     // Return to Amazon Cognito
     callback(null, event);
