@@ -63,13 +63,13 @@ exports.handler = function (event, context, callback) {
 		}).catch((err) => {
 			console.error("ERROR while get :" + JSON.stringify(err));
 			//reject(err);
-			callback(null, err);
+			event.response.error = err;
+			callback(null, event);
 		});
 
 
 	}
-
+	event.response.message = "Successfully executed";
 	// Return to Amazon Cognito
-	//callback(null, event);
-	callback(null, {"message": "Successfully executed"});
+	callback(null, event);
 }
