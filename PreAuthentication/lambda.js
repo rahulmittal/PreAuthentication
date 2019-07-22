@@ -54,16 +54,16 @@ exports.handler = function (event, context, callback) {
 				}
 			}).promise().then((data) => {
 				console.log('PUT data success:' + JSON.stringify(data));
-			
+					//event.response = {"responseCode" : "200"};		
+				// Return to Amazon Cognito
+				console.log("call back -calling context done! - success");
+				callback(null, event);
+				//context.done(null, event);			
 			}).catch((err) => {
 				console.log("ERROR while put: " + JSON.stringify(err));
 				throw err;
 			});		
-				//event.response = {"responseCode" : "200"};		
-				// Return to Amazon Cognito
-				console.log("call back -calling context done! - success");
-				callback(null, event);
-				//context.done(null, event);	
+
 		}).catch((err) => {
 			console.error("ERROR while get :" + JSON.stringify(err));
 			//reject(err);
