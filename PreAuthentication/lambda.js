@@ -62,7 +62,7 @@ exports.handler = function (event, context, callback) {
 			});
 		}).catch((err) => {
 			console.error("ERROR while get :" + JSON.stringify(err));
-			reject(err);
+			//reject(err);
 			callback(null, err);
 		});
 
