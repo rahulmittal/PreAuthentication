@@ -65,10 +65,10 @@ exports.handler = function (event, context, callback) {
 			console.error("ERROR while get :" + JSON.stringify(err));
 			//reject(err);
 			event.response = err;
-			context.done(err);
+			console.log("calling context done!");
+			context.done(JSON.stringify(err));
 			//callback(null, event);
 		});
 	}
-
 	//callback(null, event);
 }
