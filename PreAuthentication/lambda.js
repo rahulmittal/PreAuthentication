@@ -34,21 +34,21 @@ exports.handler = function (event, context, callback) {
 			} else {
 				attemptCount = data.Item.loginCount;
 			}
-			event.response.attemptCount = attemptCount;
-			console.log("attemptCount :" + attemptCount);
+
 
 			if (attemptCount >= 3) {
-				throw new Error({
+				throw {
 					'errorCode': '101',
 					'errorMessage': 'Max attempt exceeded',
 					'attemptCount': attemptCount
-				});
+				};
 			}
-
-			console.log("putting attempt count in DB :");
-            
+       
 			let user = event.request.userAttributes.sub;
 			let count = ++attemptCount;
+			event.response.attemptCount = count;
+			console.log("attempt count put in db :" + count);
+
 			ddb.put({
 				TableName: 'CognitoUser',
 				Item: {
@@ -62,6 +62,7 @@ exports.handler = function (event, context, callback) {
 			});
 		}).catch((err) => {
 			console.error("ERROR while get :" + JSON.stringify(err));
+			throw err;
 		});
 
 
