@@ -54,12 +54,12 @@ exports.handler = function (event, context, callback) {
 				}
 			}).promise().then((data) => {
 				console.log('PUT data success:' + JSON.stringify(data));
-				event.response = {"responseCode" : "200"};		
+				event.response = {'responseCode' : '200'};		
 				// Return to Amazon Cognito
 				console.log("call back -calling context done! - success");
 				//callback(null, event);
-				return event;
-				//context.done(null, event);			
+				//return event;
+				context.done(null, event);			
 			}).catch((err) => {
 				console.log("ERROR while put: " + JSON.stringify(err));
 				throw err;
@@ -70,7 +70,9 @@ exports.handler = function (event, context, callback) {
 			//reject(err);
 			event.response = err;
 			console.log("calling context done!- error");
-			context.done(JSON.stringify(err));
+			//context.done(JSON.stringify(err));
+			// Return error to Amazon Cognito
+			callback(error, event);			
 		});
 	}
 	//console.log("returning lambda...");
