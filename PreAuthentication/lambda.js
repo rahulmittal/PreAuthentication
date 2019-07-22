@@ -34,16 +34,13 @@ exports.handler = function (event, context, callback) {
 			} else {
 				attemptCount = data.Item.loginCount;
 			}
-
-
 			if (attemptCount >= 3) {
 				throw {
 					'responseCode' : '101',
 					'errorMessage': 'Max attempt exceeded',
 					'attemptCount': attemptCount
 				};
-			}
-       
+			}    
 			let user = event.request.userAttributes.sub;
 			let count = ++attemptCount;
 			event.response.attemptCount = count;
@@ -60,16 +57,16 @@ exports.handler = function (event, context, callback) {
 			}).catch((err) => {
 				console.log("ERROR while put: " + JSON.stringify(err));
 			});
+			event.response = {"responseCode" : "200"};			
 		}).catch((err) => {
 			console.error("ERROR while get :" + JSON.stringify(err));
 			//reject(err);
 			event.response = err;
-			callback(null, event);
+			//callback(null, event);
 		});
-
-
 	}
-	event.response = {"responseCode" : "200"};
 	// Return to Amazon Cognito
-	callback(null, event);
+	console.log("calling context done!");
+	context.done(null, event);
+	//callback(null, event);
 }
