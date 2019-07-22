@@ -34,7 +34,7 @@ exports.handler = function (event, context, callback) {
 			} else {
 				attemptCount = data.Item.loginCount;
 			}
-			if (attemptCount >= 3) {
+			if (attemptCount >= 5) {
 				throw {
 					'responseCode' : '101',
 					'errorMessage': 'Max attempt exceeded',
