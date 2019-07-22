@@ -62,7 +62,7 @@ exports.handler = function (event, context, callback) {
 				//event.response = {"responseCode" : "200"};		
 				// Return to Amazon Cognito
 				console.log("calling context done! - success");
-				context.done(null, event);	
+				//context.done(null, event);	
 				//callback(null, event);
 		}).catch((err) => {
 			console.error("ERROR while get :" + JSON.stringify(err));
@@ -73,5 +73,6 @@ exports.handler = function (event, context, callback) {
 			//callback(null, event);
 		});
 	}
-	//callback(null, event);
+
+	callback(null, event);
 }
