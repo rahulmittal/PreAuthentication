@@ -38,7 +38,7 @@ exports.handler = function (event, context, callback) {
 
 			if (attemptCount >= 3) {
 				throw {
-					'errorCode': '101',
+					'responseCode' : '101',
 					'errorMessage': 'Max attempt exceeded',
 					'attemptCount': attemptCount
 				};
@@ -63,13 +63,13 @@ exports.handler = function (event, context, callback) {
 		}).catch((err) => {
 			console.error("ERROR while get :" + JSON.stringify(err));
 			//reject(err);
-			event.response.error = err;
+			event.response = err;
 			callback(null, event);
 		});
 
 
 	}
-	event.response.message = "Successfully executed";
+	event.response = {"responseCode" : "200"};
 	// Return to Amazon Cognito
 	callback(null, event);
 }
