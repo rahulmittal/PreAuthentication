@@ -20,7 +20,7 @@ exports.handler = function (event, context, callback) {
         }).promise().then((data) => {
                 console.log("GET Data  :" + JSON.stringify(data));
              }).catch((err) => {
-                console.error("ERROR while get :" + JSON.stringify(err))
+                console.error("ERROR while get :" + JSON.stringify(err));
             });
 
             console.log("putting login attemmpt in DB :");
