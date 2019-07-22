@@ -62,17 +62,15 @@ exports.handler = function (event, context, callback) {
 				//event.response = {"responseCode" : "200"};		
 				// Return to Amazon Cognito
 				console.log("calling context done! - success");
-				//context.done(null, event);	
-				callback(null, event);
+				context.done(null, event);	
 		}).catch((err) => {
 			console.error("ERROR while get :" + JSON.stringify(err));
 			//reject(err);
 			event.response = err;
 			console.log("calling context done!- error");
 			context.done(JSON.stringify(err));
-			//callback(null, event);
 		});
 	}
-
-	//callback(null, event);
+	console.log("returning lambda...");
+	callback(null, event);
 }
