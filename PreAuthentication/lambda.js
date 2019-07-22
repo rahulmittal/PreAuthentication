@@ -68,9 +68,9 @@ exports.handler = function (event, context, callback) {
 			console.error("ERROR while get :" + JSON.stringify(err));
 			//reject(err);
 			event.response = err;
-			console.log("call - back - calling context done!- error");
-			//context.done(JSON.stringify(err));
-			callback(JSON.stringify(err));
+			console.log("calling context done!- error");
+			context.done(JSON.stringify(err));
+			//callback(JSON.stringify(err));
 		});
 	}
 	console.log("returning lambda...");
